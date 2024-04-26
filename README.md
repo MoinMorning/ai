@@ -69,6 +69,7 @@ GPT4All offers open-source large language models that operate locally on your CP
 **GPT4All Website and Models** • **GPT4All Documentation** • **Discord**
 
 ![GPT4All Image](https://placekitten.com/200/300)
+https://docs.gpt4all.io/
 
 ## GPT4All: An Ecosystem of Open-Source On-Edge Large Language Models
 
