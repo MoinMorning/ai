@@ -1,14 +1,11 @@
-from pathlib import Path
-from typing import List, Tuple
-
+from langchain.document_loaders import PyPDFLoader
 from langchain import PromptTemplate, LLMChain
-from langchain.document_loaders import TextLoader
-from langchain.embeddings import LlamaCppEmbeddings
+from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.llms import GPT4All
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores.faiss import FAISS
-from pydantic import BaseModel, Field
-from langchain.chains import ConversationalRetrievalChain
+from langchain.callbacks.base import BaseCallbackManager
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
 # Constants
 local_path = "./models/gpt4all-converted.bin"
