@@ -1,6 +1,4 @@
-import sys
-from nomic.gpt4all import GPT4All
-m = GPT4All()
-m.open()
-m.prompt('write me a story about a lonely computer')
-print(sys.path)
+from gpt4all import GPT4All
+model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
+output = model.generate("The capital of France is ", max_tokens=10)
+print(output)
