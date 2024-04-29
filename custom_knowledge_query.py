@@ -38,7 +38,7 @@ def create_index(chunks):
     metadatas = [doc.metadata for doc in chunks]
 
     search_index = FAISS.from_texts(texts, embeddings, metadatas=metadatas)
-
+    
     return search_index
 
 
