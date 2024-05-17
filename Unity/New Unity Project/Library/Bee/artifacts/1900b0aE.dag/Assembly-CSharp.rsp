@@ -337,12 +337,11 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.26f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.26f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
-"Assets/Low_Swordman/Demo/Scripts/CameraController.cs"
-"Assets/Low_Swordman/Demo/Scripts/Demo_GM.cs"
-"Assets/Low_Swordman/Demo/Scripts/GroundSensor.cs"
-"Assets/Low_Swordman/Demo/Scripts/PlayerController.cs"
-"Assets/Low_Swordman/Demo/Scripts/Swordman.cs"
-"Assets/Simple 2D Platformer BE2/ReadMe/Scripts/ReadmeBE2.cs"
+"Assets/Scripts/CameraController.cs"
+"Assets/Scripts/Demo_GM.cs"
+"Assets/Scripts/GroundSensor.cs"
+"Assets/Scripts/PlayerController.cs"
+"Assets/Scripts/Swordman.cs"
 -langversion:9.0
 /deterministic
 /optimize+
