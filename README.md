@@ -1,132 +1,131 @@
-## GPT4All Unity Bindings
+# LocalGPT: Engaging in Private
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
 
-These are Unity3d bindings for [GPT4All](https://github.com/nomic-ai/gpt4all), providing high-performance inference of large language models (LLMs) running on your local machine.
+## Highlights 🌟
+- **Absolute Privacy**: Your data stays on your machine, guaranteeing complete security.
+- **Flexible Model Integration**: Effortlessly incorporate a range of public models, including HF, GPTQ, GGML, and GGUF.
+- **Varied Embeddings**: Select from an assortment of public embeddings.
+- **LLM Reusability**: Once downloaded, your LLM can be reused without the need for additional downloads.
+- **Conversation Memory**: Retains your past conversations (within a session).
+- **API**: LocalGPT provides an API for developing RAG Applications.
+- **User Interface**: LocalGPT offers two GUIs, one that utilizes the API and another that is standalone (built on streamlit).
+- **Multi-platform Support**: Out-of-the-box support for multiple platforms. Interact with your data using `CUDA`, `CPU` or `MPS` and more!
 
-> Please note: These bindings currently utilize an outdated version of GPT4All, lacking support for the latest model architectures and quantization. For more information, refer to [this issue](https://github.com/Macoron/gpt4all.unity/issues/11).
+## Learn More with Our Videos 🎥
+- In-depth code walkthrough
+- Llama-2 integration with LocalGPT
+- Incorporating Chat History
+- LocalGPT - Latest Update (09/17/2023)
 
-**Main Features:**
-- Implementation of chat-based LLM suitable for NPCs and virtual assistants.
-- Models available in various sizes for both commercial and non-commercial applications.
-- High-speed CPU-based inference.
-- Operates locally without requiring an internet connection.
-- Free and open-source.
+## Technical Aspects 🛠️
+By choosing the appropriate local models and leveraging the power of `LangChain`, you can execute the entire RAG pipeline on-premise, without any data leaving your environment, and with satisfactory performance.
 
-**Supported Platforms:**
-- [x] Windows (x86_64)
-- [x] MacOS (Intel and ARM)
-- [ ] Linux
-- [ ] iOS
-- [ ] Android
-- [ ] WebGL
+- `ingest.py` employs `LangChain` tools to parse the document and generate embeddings locally using `InstructorEmbeddings`. It then saves the result in a local vector database using the `Chroma` vector store.
+- `run_localGPT.py` uses a local LLM to comprehend questions and formulate answers. The context for the answers is extracted from the local vector store using a similarity search to find the right context from the docs.
+- You can substitute this local LLM with any other LLM from HuggingFace. Ensure that the LLM you choose is in the HF format.
 
-## Samples
+This project was motivated by the original privateGPT.
 
-![Sample Image](https://github.com/Macoron/gpt4all.unity/assets/6161335/1c0540d0-a169-4d88-8661-35ec0681ff5b)
+## Built With 🧩
+- LangChain
+- HuggingFace LLMs
+- InstructorEmbeddings
+- LLAMACPP
+- ChromaDB
+- Streamlit
 
-*"mpt-7b-chat" model, simulating a roleplaying dwarf NPC on a MacBook with M1 Pro*
+# Setting Up the Environment 🌍
 
-## Getting Started
-Clone this repository and open it as a regular Unity project. It should function properly starting from Unity 2019.4 LTS.
+1. 📥 Clone the repository using git:
 
-Alternatively, you can add this repository to your existing project as a **Unity Package**. Add it using the following git URL in your Unity Package Manager:
-https://github.com/Macoron/gpt4all.unity.git?path=/Packages/com.gpt4all.unity
+```shell
+git clone https://github.com/PromtEngineer/localGPT.git
 
-markdown
-Copy code
-### Downloading Model Weights
+🐍 Install conda for managing virtual environments. Create and activate a new virtual environment.
+conda create -n localGPT python=3.10.0
+conda activate localGPT
 
-To utilize this library, you'll need to download model weights. You can find a full list of officially supported GPT4All models and their download links [here](https://github.com/nomic-ai/gpt4all/tree/main/gpt4all-chat#manual-download-of-models).
+🛠️ Install the dependencies using pip
+To prepare your environment to run the code, first install all requirements:
 
-> Note: Some models may have restrictions for commercial projects. Please review their licenses before integrating them into your project.
+pip install -r requirements.txt
 
-After downloading a model, place it in the `StreamingAssets/Gpt4All` folder and update the path in the `LlmManager` component.
+Installing LLAMA-CPP :
 
-List of models tested in Unity:
-- [mpt-7b-chat](https://huggingface.co/macoron/ggml-mpt-7b-chat) [license: cc-by-nc-sa-4.0]
-- [mpt-7b-instruct](https://huggingface.co/macoron/ggml-mpt-7b-instruct) [license: cc-by-sa-3.0]
-- [mpt-7b-base](https://huggingface.co/macoron/ggml-mpt-7b-base) [license: apache-2.0]
-- [gpt4all-j-v1.3-groovy](https://huggingface.co/macoron/ggml-gpt4all-j-v1.3-groovy) [license: apache-2.0]
-- gpt4all-l13b-snoozy
+LocalGPT uses LlamaCpp-Python for GGML (you will need llama-cpp-python <=0.1.76) and GGUF (llama-cpp-python >=0.1.83) models.
 
-## Compiling C++ Libraries from Source
-TBD
+If you want to use BLAS or Metal with llama-cpp you can set appropriate flags:
 
-## License
-This project is licensed under the MIT License.
+For NVIDIA GPUs support, use cuBLAS
 
-It utilizes compiled libraries of [GPT4All](https://github.com/nomic-ai/gpt4all/tree/main) and [llama.cpp](https://github.com/ggerganov/llama.cpp), both also under the MIT license.
+# Example: cuBLAS
+CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install llama-cpp-python --no-cache-dir
 
-Models are not included in this repository. Please contact the original model creators to learn more about their licenses.
+For Apple Metal (M1/M2) support, use
 
----
+# Example: METAL
+CMAKE_ARGS="-DLLAMA_METAL=on"  FORCE_CMAKE=1 pip install llama-cpp-python --no-cache-dir
 
-## GPT4All: On-Edge Large Language Models
+For more details, please refer to llama-cpp
 
-GPT4All offers open-source large language models that operate locally on your CPU and nearly any GPU.
+Docker 🐳
+Installing the required packages for GPU inference on NVIDIA GPUs, like gcc 11 and CUDA 11, may cause conflicts with other packages in your system. As an alternative to Conda, you can use Docker with the provided Dockerfile. It includes CUDA, your system just needs Docker, BuildKit, your NVIDIA GPU driver and the NVIDIA container toolkit. Build as docker build -t localgpt ., requires BuildKit. Docker BuildKit does not support GPU during docker build time right now, only during docker run. Run as docker run -it --mount src="$HOME/.cache",target=/root/.cache,type=bind --gpus=all localgpt.
 
-**GPT4All Website and Models** • **GPT4All Documentation** • **Discord**
+Test dataset
+For testing, this repository comes with Constitution of USA as an example file to use.
 
-![GPT4All Image](https://placekitten.com/200/300)
-https://docs.gpt4all.io/
+Ingesting your OWN Data.
+Put your files in the SOURCE_DOCUMENTS folder. You can put multiple folders within the SOURCE_DOCUMENTS folder and the code will recursively read your files.
 
-## GPT4All: An Ecosystem of Open-Source On-Edge Large Language Models
+Support file formats:
+LocalGPT currently supports the following file formats. LocalGPT uses LangChain for loading these file formats. The code in constants.py uses a DOCUMENT_MAP dictionary to map a file format to the corresponding loader. In order to add support for another file format, simply add this dictionary with the file format and the corresponding loader from LangChain.
 
-GPT4All provides the capability to run powerful and customized large language models directly on your local machine. These models are compatible with consumer-grade CPUs and GPUs. Your CPU needs to support AVX or AVX2 instructions.
-
-For more details, refer to the documentation.
-
-A GPT4All model typically ranges from 3GB to 8GB in size and can be downloaded and integrated into the GPT4All open-source ecosystem software. This software ecosystem is maintained by **Nomic AI**, ensuring quality, security, and ease of training and deploying your own on-edge large language models.
-
-### What's New
-
-- **Latest Release**: Explore the latest release.
-- **October 19th, 2023**: GGUF Support Launches, featuring:
-    - The Mistral 7b base model and an updated model gallery on gpt4all.io.
-    - Several new local code models, including Rift Coder v1.5.
-    - Nomic Vulkan support for Q4\_0 and Q4\_1 quantizations in GGUF.
-    - Offline build support for running old versions of the GPT4All Local LLM Chat Client.
-- **September 18th, 2023**: Nomic Vulkan launches, supporting local LLM inference on AMD, Intel, Samsung, Qualcomm, and NVIDIA GPUs.
-- **August 15th, 2023**: GPT4All API launches, enabling inference of local LLMs from Docker containers.
-- **July 2023**: Stable support for LocalDocs, a GPT4All Plugin that enables private and local chat with your data.
-
-### Chat Client
-
-You can run any GPT4All model natively on your home desktop using the auto-updating desktop chat client. Visit the GPT4All Website for a complete list of open-source models compatible with this powerful desktop application.
-
-Direct Installer Links:
-- macOS
-- Windows
-- Ubuntu
-
-### Chat Client Building and Running
-
-Follow the visual instructions on the chat client build_and_run page.
-
-### Bindings
-
-Official Bindings:
-- Python Bindings !Downloads
-- Typescript Bindings
-- GoLang Bindings
-- C# Bindings
-- Java Bindings
-
-### Integrations
-
-- Weaviate Vector Database - Module Docs
-
-## Citation
-
-If you utilize this repository, models, or data in a downstream project, please consider citing it with:
-```
-@misc{gpt4all,
-  author = {Yuvanesh Anand and Zach Nussbaum and Brandon Duderstadt and Benjamin Schmidt and Andriy Mulyar},
-  title = {GPT4All: Training an Assistant-style Chatbot with Large Scale Data Distillation from GPT-3.5-Turbo},
-  year = {2023},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/nomic-ai/gpt4all}},
+DOCUMENT_MAP = {
+    ".txt": TextLoader,
+    ".md": TextLoader,
+    ".py": TextLoader,
+    ".pdf": PDFMinerLoader,
+    ".csv": CSVLoader,
+    ".xls": UnstructuredExcelLoader,
+    ".xlsx": UnstructuredExcelLoader,
+    ".docx": Docx2txtLoader,
+    ".doc": Docx2txtLoader,
 }
-```
+
+Ingest
+Run the following command to ingest all the data.
+
+If you have cuda setup on your system.
+
+python ingest.py
+
+You will see an output like this: <img width=“1110” alt=“Screenshot 2023-09-14 at 3 36 27 PM” src=“https://github.com/PromtEngineer/localGPT/assets/134474669/c9274e9a-842c-49b9-8d95-606c3d80011f”>
+
+Use the device type argument to specify a given device. To run on cpu
+
+python ingest.py --device_type cpu
+
+To run on M1/M2
+
+python ingest.py --device_type mps
+
+Use help for a full list of supported devices.
+
+python ingest.py --help
+
+This will create a new folder called DB and use it for the newly created vector store. You can ingest as many documents as you want, and all will be accumulated in the local embeddings database. If you want to start from an empty database, delete the DB and reingest your documents.
+
+Note: When you run this for the first time, it will need internet access to download the embedding model (default: Instructor Embedding). In the subsequent runs, no data will leave your local environment and you can ingest data without internet connection.
+
+Ask questions to your documents, locally!
+In order to chat with your documents, run the following command (by default, it will run on cuda).
+
+python run_localGPT.py
+
+You can also specify the device type just like ingest.py
+
+python run_localGPT.py --device_type mps # to run on Apple silicon
+
+This will load the ingested vector store and embedding model. You will be presented with a prompt:
+
+> Enter a query:
